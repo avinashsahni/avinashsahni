@@ -1,0 +1,61 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionHeading from '../../components/ui/SectionHeading.astro';
+import ServiceCard from '../../components/ui/ServiceCard.astro';
+import ContactCTA from '../../components/sections/ContactCTA.astro';
+import { servicesData } from '../../data/services';
+import { siteConfig } from '../../data/siteConfig';
+import { generateBreadcrumbSchema } from '../../lib/seo';
+
+const pageTitle = `Web Development Services – ${siteConfig.name}`;
+const pageDescription =
+  'Professional web development services for startups and businesses: SaaS Development, Custom Web Applications, Backend & REST APIs, Dashboards, and Integrations.';
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Services', url: '/services' },
+];
+
+const breadcrumbSchema = generateBreadcrumbSchema(breadcrumbs);
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  schema={breadcrumbSchema}
+>
+  <div class="py-16 sm:py-24">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Breadcrumb -->
+      <nav aria-label="Breadcrumb" class="mb-8 flex items-center gap-2 text-xs font-mono text-text-muted">
+        <a href="/" class="hover:text-white transition-colors">Home</a>
+        <span>/</span>
+        <span class="text-accent">Services</span>
+      </nav>
+
+      <!-- Header -->
+      <div class="max-w-3xl mb-16">
+        <div class="inline-flex items-center gap-2 px-3 py-1 mb-4 rounded-full border border-white/10 bg-[#141414] text-xs font-mono text-accent uppercase tracking-wider">
+          <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+          Technical Capabilities
+        </div>
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
+          Specialized Engineering Services
+        </h1>
+        <p class="mt-4 text-base sm:text-lg text-text-secondary leading-relaxed">
+          Full-cycle development services tailored to high-growth startups and established businesses requiring scalable, maintainable digital products.
+        </p>
+      </div>
+
+      <!-- Services Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        {servicesData.map((service) => (
+          <ServiceCard service={service} />
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <ContactCTA />
+</BaseLayout>
+

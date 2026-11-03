@@ -1,0 +1,84 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { siteConfig } from '../data/siteConfig';
+import { generateBreadcrumbSchema } from '../lib/seo';
+
+const pageTitle = `Privacy Policy – ${siteConfig.name}`;
+const pageDescription = `Privacy policy and data handling practices for ${siteConfig.name}.`;
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Privacy Policy', url: '/privacy' },
+];
+
+const breadcrumbSchema = generateBreadcrumbSchema(breadcrumbs);
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  schema={breadcrumbSchema}
+>
+  <div class="py-16 sm:py-24">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Breadcrumb -->
+      <nav aria-label="Breadcrumb" class="mb-8 flex items-center gap-2 text-xs font-mono text-text-muted">
+        <a href="/" class="hover:text-white transition-colors">Home</a>
+        <span>/</span>
+        <span class="text-accent">Privacy Policy</span>
+      </nav>
+
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-8">
+        Privacy Policy
+      </h1>
+
+      <div class="space-y-8 text-sm sm:text-base text-text-secondary leading-relaxed border-t border-white/10 pt-8">
+        <p>
+          Last updated: October 2026. This Privacy Policy outlines how Avinash Sahni ("I", "me", or "my") handles your personal information when you visit <a href={siteConfig.url} class="text-accent underline">{siteConfig.url}</a> or communicate through this website.
+        </p>
+
+        <section class="space-y-3">
+          <h2 class="text-lg font-bold text-white">1. Information Collection</h2>
+          <p>
+            When you submit a project inquiry via the contact form, I collect the information you voluntarily provide: your name, email address, company name (if applicable), project type, timeline, and project description.
+          </p>
+          <p>
+            I do not deploy invasive third-party tracking cookies or collect behavioral telemetry.
+          </p>
+        </section>
+
+        <section class="space-y-3">
+          <h2 class="text-lg font-bold text-white">2. Use of Information</h2>
+          <p>
+            The information collected is used solely to evaluate your project requirements, communicate regarding freelance engagements, and deliver requested technical services.
+          </p>
+          <p>
+            Your information is never sold, leased, or traded to third parties or marketing lists.
+          </p>
+        </section>
+
+        <section class="space-y-3">
+          <h2 class="text-lg font-bold text-white">3. Third-Party Service Providers</h2>
+          <p>
+            Contact form submissions are delivered via Resend, an enterprise transactional email API provider. Messages transmitted through Resend are governed by Resend's data privacy and security policies.
+          </p>
+        </section>
+
+        <section class="space-y-3">
+          <h2 class="text-lg font-bold text-white">4. Data Retention and Rights</h2>
+          <p>
+            You retain the right to request deletion or modification of any project correspondence sent through this website. To request data deletion, contact <a href={`mailto:${siteConfig.email}`} class="text-accent underline">{siteConfig.email}</a>.
+          </p>
+        </section>
+
+        <section class="space-y-3">
+          <h2 class="text-lg font-bold text-white">5. Contact</h2>
+          <p>
+            For any inquiries regarding this policy, email <a href={`mailto:${siteConfig.email}`} class="text-accent underline">{siteConfig.email}</a>.
+          </p>
+        </section>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+

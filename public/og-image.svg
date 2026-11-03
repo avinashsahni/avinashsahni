@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none">
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#0A0A0A"/>
+  
+  <!-- Subtle Grid -->
+  <defs>
+    <radialGradient id="ambientGlow" cx="50%" cy="0%" r="60%">
+      <stop offset="0%" stop-color="#FF6B35" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#0A0A0A" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="dotPattern" x="0" y="0" width="32" height="32" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.5" fill="#FFFFFF" fill-opacity="0.08"/>
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#ambientGlow)"/>
+  <rect width="1200" height="630" fill="url(#dotPattern)"/>
+  
+  <!-- Outer Border -->
+  <rect x="24" y="24" width="1152" height="582" rx="16" stroke="#222222" stroke-width="2"/>
+
+  <!-- Content -->
+  <g transform="translate(80, 100)">
+    <!-- Brand Badge -->
+    <rect x="0" y="0" width="48" height="48" rx="10" fill="#141414" stroke="#2A2A2A" stroke-width="1.5"/>
+    <text x="12" y="32" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="bold" fill="#FF6B35">AS</text>
+
+    <!-- Availability Tag -->
+    <rect x="68" y="10" width="220" height="28" rx="14" fill="#141414" stroke="#262626"/>
+    <circle cx="84" cy="24" r="4" fill="#10B981"/>
+    <text x="96" y="28" font-family="monospace" font-size="12" fill="#EDEDED">Available for Projects</text>
+
+    <!-- Name & Title -->
+    <text x="0" y="110" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="32" font-weight="700" fill="#EDEDED" letter-spacing="-0.5">Avinash Sahni</text>
+    <text x="0" y="145" font-family="monospace" font-size="18" fill="#FF6B35">Independent Full-Stack Developer</text>
+
+    <!-- Headline -->
+    <text x="0" y="225" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="52" font-weight="800" fill="#FFFFFF" letter-spacing="-1.5">
+      I Build Digital Products That
+    </text>
+    <text x="0" y="290" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="52" font-weight="800" fill="#FFFFFF" letter-spacing="-1.5">
+      Help Businesses Grow.
+    </text>
+
+    <!-- Subtitle -->
+    <text x="0" y="355" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" fill="#A1A1AA">
+      SaaS Platforms • Custom Web Applications • Node.js APIs • 6+ Years Experience
+    </text>
+
+    <!-- URL Tag -->
+    <text x="0" y="440" font-family="monospace" font-size="16" fill="#71717A">
+      avinashsahni.com
+    </text>
+  </g>
+</svg>
+

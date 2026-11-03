@@ -1,0 +1,102 @@
+---
+import SectionHeading from '../ui/SectionHeading.astro';
+
+const reasons = [
+  {
+    title: 'Direct Developer Communication',
+    description:
+      'You communicate directly with the engineer architecting and writing your software. No account reps, no misunderstandings, and immediate technical feedback on ideas.',
+    icon: 'MessageSquare',
+  },
+  {
+    title: 'Clean and Maintainable Code',
+    description:
+      'Strict TypeScript typings, modular component patterns, and comprehensive code comments ensure any future engineering team can onboard and extend your codebase without friction.',
+    icon: 'Code',
+  },
+  {
+    title: 'Scalable Architecture',
+    description:
+      'Backed by 6+ years of Node.js and database engineering, your systems are designed from day one to handle traffic spikes, multi-tenancy, and complex business logic.',
+    icon: 'Cpu',
+  },
+  {
+    title: 'Performance-Focused Development',
+    description:
+      'Zero unnecessary JavaScript bloat, sub-second load times, optimized database queries, and 95+ Core Web Vitals to maximize user conversion and organic SEO.',
+    icon: 'Zap',
+  },
+  {
+    title: 'Transparent Project Updates',
+    description:
+      'Regular staging builds, documented git commits, and milestone demos. You always know exactly what has been completed and what is scheduled next.',
+    icon: 'CheckCircle',
+  },
+  {
+    title: 'Long-Term Technical Support',
+    description:
+      'Your project does not end when code is deployed. I provide post-launch stability support, security patching, and architectural advisory as your user base grows.',
+    icon: 'ShieldCheck',
+  },
+];
+---
+
+<section class="py-20 sm:py-28 relative">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <SectionHeading
+      eyebrow="Client Partnership"
+      title="Why Work With An Independent Full-Stack Engineer"
+      description="The speed and dedication of a focused solo engineer paired with enterprise-level development standards."
+    />
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+      {reasons.map((item) => (
+        <div class="rounded-xl border border-white/10 bg-[#111111] p-6 sm:p-7 hover:border-white/20 transition-all duration-300">
+          <div class="w-10 h-10 rounded-lg bg-[#181818] border border-white/10 flex items-center justify-center text-accent mb-4">
+            {item.icon === 'MessageSquare' && (
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              </svg>
+            )}
+            {item.icon === 'Code' && (
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="16 18 22 12 16 6"/>
+                <polyline points="8 6 2 12 8 18"/>
+              </svg>
+            )}
+            {item.icon === 'Cpu' && (
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect width="16" height="16" x="4" y="4" rx="2"/>
+                <rect width="6" height="6" x="9" y="9" rx="1"/>
+                <path d="M15 2v2M15 20v2M2 15h2M2 9h2M20 15h2M20 9h2M9 2v2M9 20v2"/>
+              </svg>
+            )}
+            {item.icon === 'Zap' && (
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+              </svg>
+            )}
+            {item.icon === 'CheckCircle' && (
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                <polyline points="22 4 12 14.01 9 11.01"/>
+              </svg>
+            )}
+            {item.icon === 'ShieldCheck' && (
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/>
+                <path d="m9 12 2 2 4-4"/>
+              </svg>
+            )}
+          </div>
+
+          <h3 class="text-base font-bold text-white mb-2">{item.title}</h3>
+          <p class="text-xs sm:text-sm text-text-secondary leading-relaxed">
+            {item.description}
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+

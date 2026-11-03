@@ -1,0 +1,163 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+import Button from '../components/ui/Button.astro';
+import ContactCTA from '../components/sections/ContactCTA.astro';
+import { siteConfig } from '../data/siteConfig';
+import { technologies } from '../data/technologies';
+import { generateBreadcrumbSchema } from '../lib/seo';
+
+const pageTitle = `About ${siteConfig.name} – ${siteConfig.title}`;
+const pageDescription =
+  'Independent Full-Stack Developer with 6+ years of Node.js experience building scalable digital products, SaaS applications, and modern web architectures.';
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'About', url: '/about' },
+];
+
+const breadcrumbSchema = generateBreadcrumbSchema(breadcrumbs);
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  schema={breadcrumbSchema}
+>
+  <div class="py-16 sm:py-24">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Breadcrumb navigation -->
+      <nav aria-label="Breadcrumb" class="mb-8 flex items-center gap-2 text-xs font-mono text-text-muted">
+        <a href="/" class="hover:text-white transition-colors">Home</a>
+        <span>/</span>
+        <span class="text-accent">About</span>
+      </nav>
+
+      <!-- Page Header -->
+      <div class="mb-14">
+        <div class="inline-flex items-center gap-2 px-3 py-1 mb-4 rounded-full border border-white/10 bg-[#141414] text-xs font-mono text-accent uppercase tracking-wider">
+          <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+          Background & Engineering Philosophy
+        </div>
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
+          Hi, I'm Avinash Sahni. I build scalable software for growing businesses.
+        </h1>
+        <p class="mt-5 text-lg text-text-secondary leading-relaxed">
+          {siteConfig.experienceHighlight}
+        </p>
+      </div>
+
+      <!-- Core Narrative -->
+      <div class="space-y-8 text-base text-text-secondary leading-relaxed border-t border-white/10 pt-10">
+        <div class="space-y-4">
+          <h2 class="text-2xl font-bold text-white tracking-tight">The Pragmatic Approach</h2>
+          <p>
+            In the modern web landscape, it is easy to get caught in endless cycles of architectural over-engineering and dependency churn. I take a fundamentally pragmatic approach: select the right tool for the specific business objective, ensure type-safety across client-server boundaries, and design databases that remain fast as tables accumulate millions of records.
+          </p>
+          <p>
+            With 6+ years of experience focused on Node.js and modern TypeScript web platforms, I have built everything from high-volume client-side utility engines to secure multi-tenant SaaS foundations with automated subscription billing and granular role-based permissions.
+          </p>
+        </div>
+
+        <!-- Key Milestones & Capabilities -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4">
+          <div class="p-5 rounded-xl border border-white/10 bg-[#121212]">
+            <span class="block text-3xl font-bold font-mono text-accent">6+</span>
+            <span class="mt-1 block text-xs font-mono uppercase tracking-wider text-text-muted">Years Experience</span>
+            <p class="mt-2 text-xs text-text-secondary">Specialized in Node.js, TypeScript, and modern distributed web architectures.</p>
+          </div>
+
+          <div class="p-5 rounded-xl border border-white/10 bg-[#121212]">
+            <span class="block text-3xl font-bold font-mono text-white">Full-Stack</span>
+            <span class="mt-1 block text-xs font-mono uppercase tracking-wider text-text-muted">Architecture Scope</span>
+            <p class="mt-2 text-xs text-text-secondary">From relational schema modeling and API design to pixel-accurate responsive interfaces.</p>
+          </div>
+
+          <div class="p-5 rounded-xl border border-white/10 bg-[#121212]">
+            <span class="block text-3xl font-bold font-mono text-emerald-400">100%</span>
+            <span class="mt-1 block text-xs font-mono uppercase tracking-wider text-text-muted">Direct Communication</span>
+            <p class="mt-2 text-xs text-text-secondary">Work directly with the engineer writing your code with zero agency intermediaries.</p>
+          </div>
+        </div>
+
+        <!-- Specialization Pillars -->
+        <div class="space-y-4 pt-6">
+          <h2 class="text-2xl font-bold text-white tracking-tight">Core Specializations</h2>
+          <p>
+            My engineering practice centers around five primary technical domains:
+          </p>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+            {[
+              {
+                title: 'SaaS Platforms & MVPs',
+                desc: 'Multi-tenant architecture, Stripe billing webhooks, workspace onboarding, and transactional communications.',
+              },
+              {
+                title: 'High-Throughput REST APIs',
+                desc: 'Stateless Node.js services with Zod schema validation, JWT/session authentication, and Redis rate limiting.',
+              },
+              {
+                title: 'Database Architecture & Modeling',
+                desc: 'PostgreSQL, MySQL, and MongoDB data modeling, query optimization, indexing strategies, and Prisma migrations.',
+              },
+              {
+                title: 'Performant Modern Frontends',
+                desc: 'React, Next.js, and Astro web applications engineered with 95+ Core Web Vitals and zero unnecessary JS.',
+              },
+              {
+                title: 'Operational Dashboards & Portals',
+                desc: 'Internal tooling, analytics dashboards, CSV/PDF export pipelines, and role-based access control systems.',
+              },
+              {
+                title: 'Third-Party API Integrations',
+                desc: 'Resilient webhooks, payment gateways, marketing CRMs, and cloud storage providers with automated retry logic.',
+              },
+            ].map((spec) => (
+              <div class="p-4 rounded-lg border border-white/10 bg-[#141414]">
+                <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                  <span class="w-1.5 h-1.5 rounded-full bg-accent" />
+                  {spec.title}
+                </h3>
+                <p class="mt-2 text-xs text-text-secondary leading-relaxed">{spec.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Tech Stack Categorized -->
+        <div class="space-y-4 pt-6">
+          <h2 class="text-2xl font-bold text-white tracking-tight">Technical Toolkit</h2>
+          <p>
+            Technologies I use daily to architect and deploy production systems:
+          </p>
+
+          <div class="flex flex-wrap gap-2 pt-2">
+            {technologies.map((t) => (
+              <div class="px-3 py-1.5 rounded-lg border border-white/10 bg-[#141414] text-xs font-mono flex items-center gap-2">
+                <span class="text-white font-medium">{t.name}</span>
+                <span class="text-[10px] text-accent/80 font-normal">({t.badge})</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- CTA Box -->
+        <div class="pt-10">
+          <div class="p-8 rounded-xl border border-white/10 bg-[#141414] flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div class="space-y-1 text-center sm:text-left">
+              <h3 class="text-lg font-bold text-white">Have a project you want to discuss?</h3>
+              <p class="text-xs sm:text-sm text-text-secondary">
+                Let's evaluate your requirements, timeline, and architectural approach.
+              </p>
+            </div>
+            <Button href="/contact" variant="primary" size="md">
+              Start a Conversation
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ContactCTA />
+</BaseLayout>

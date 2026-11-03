@@ -1,0 +1,103 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactForm from '../components/ui/ContactForm';
+import { siteConfig } from '../data/siteConfig';
+import { generateBreadcrumbSchema } from '../lib/seo';
+
+const pageTitle = `Contact ${siteConfig.name} – Start a Project Inquiry`;
+const pageDescription =
+  "Discuss your upcoming web application, SaaS platform, or backend API project directly with Avinash Sahni. Direct developer communication and transparent scoping.";
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Contact', url: '/contact' },
+];
+
+const breadcrumbSchema = generateBreadcrumbSchema(breadcrumbs);
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  schema={breadcrumbSchema}
+>
+  <div class="py-16 sm:py-24">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Breadcrumb -->
+      <nav aria-label="Breadcrumb" class="mb-8 flex items-center gap-2 text-xs font-mono text-text-muted">
+        <a href="/" class="hover:text-white transition-colors">Home</a>
+        <span>/</span>
+        <span class="text-accent">Contact</span>
+      </nav>
+
+      <!-- Page Header -->
+      <div class="mb-14 text-center sm:text-left">
+        <div class="inline-flex items-center gap-2 px-3 py-1 mb-4 rounded-full border border-white/10 bg-[#141414] text-xs font-mono text-emerald-400">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+          {siteConfig.availability}
+        </div>
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
+          Let's Discuss Your Project
+        </h1>
+        <p class="mt-4 text-base sm:text-lg text-text-secondary leading-relaxed max-w-2xl">
+          Whether you are launching a new SaaS MVP, modernizing backend services, or scaling an existing web application, fill out the form below or reach out directly.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        <!-- Main Form Column -->
+        <div class="lg:col-span-8 rounded-2xl border border-white/10 bg-[#111111] p-6 sm:p-10 shadow-xl">
+          <ContactForm client:load />
+        </div>
+
+        <!-- Sidebar Direct Details -->
+        <div class="lg:col-span-4 space-y-6">
+          <!-- Direct Communication Box -->
+          <div class="p-6 rounded-xl border border-white/10 bg-[#121212] space-y-3">
+            <h3 class="text-xs font-mono uppercase tracking-wider text-text-muted">Direct Email</h3>
+            <p class="text-sm font-medium text-white">
+              <a
+                href={`mailto:${siteConfig.email}`}
+                class="hover:text-accent transition-colors flex items-center gap-1.5"
+              >
+                <span>{siteConfig.email}</span>
+                <span class="text-xs text-accent">↗</span>
+              </a>
+            </p>
+            <p class="text-xs text-text-secondary leading-relaxed">
+              Prefer writing an email? Send details directly to my inbox for an initial technical evaluation.
+            </p>
+          </div>
+
+          <!-- Availability & Response Time -->
+          <div class="p-6 rounded-xl border border-white/10 bg-[#121212] space-y-3 font-mono text-xs">
+            <h3 class="text-xs uppercase tracking-wider text-text-muted">Turnaround & Hours</h3>
+            <div class="space-y-2 text-text-secondary">
+              <p class="flex items-center justify-between">
+                <span>Response Time:</span>
+                <span class="text-white">24–48 Hours</span>
+              </p>
+              <p class="flex items-center justify-between">
+                <span>Timezone:</span>
+                <span class="text-white">Global Remote</span>
+              </p>
+              <p class="flex items-center justify-between">
+                <span>Engagements:</span>
+                <span class="text-emerald-400">Freelance/Contract</span>
+              </p>
+            </div>
+          </div>
+
+          <!-- NDA & Confidentiality -->
+          <div class="p-6 rounded-xl border border-white/10 bg-[#121212] space-y-2">
+            <h3 class="text-xs font-mono uppercase tracking-wider text-text-muted">Confidentiality</h3>
+            <p class="text-xs text-text-secondary leading-relaxed">
+              All proprietary project ideas, codebase audits, and roadmap disclosures are held strictly confidential. Mutual NDAs signed on request.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+

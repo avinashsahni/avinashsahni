@@ -1,0 +1,37 @@
+---
+import SectionHeading from '../ui/SectionHeading.astro';
+import ServiceCard from '../ui/ServiceCard.astro';
+import { servicesData } from '../../data/services';
+import Button from '../ui/Button.astro';
+---
+
+<section class="py-20 sm:py-28 bg-[#0D0D0D] border-t border-white/[0.08] relative">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <SectionHeading
+      eyebrow="Capabilities"
+      title="Professional Web Development Services"
+      description="Tailored engineering solutions built with modern technology stacks, clean code conventions, and high performance by default."
+    />
+
+    <!-- 6 Services Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+      {servicesData.map((service) => (
+        <ServiceCard service={service} />
+      ))}
+    </div>
+
+    <!-- Bottom Services Note & CTA -->
+    <div class="mt-14 p-6 sm:p-8 rounded-xl border border-white/10 bg-[#121212] flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
+      <div class="space-y-1">
+        <h3 class="text-base font-bold text-white">Need a customized technical scope?</h3>
+        <p class="text-xs sm:text-sm text-text-secondary">
+          Every project begins with a dedicated technical requirements discovery session to define architecture and milestones.
+        </p>
+      </div>
+      <Button href="/contact" variant="primary" size="md">
+        Schedule Scoping Call
+      </Button>
+    </div>
+  </div>
+</section>
+

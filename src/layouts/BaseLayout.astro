@@ -1,0 +1,111 @@
+---
+import '@/styles/global.css';
+import { siteConfig } from '../data/siteConfig';
+import Navbar from '../components/layout/Navbar.astro';
+import Footer from '../components/layout/Footer.astro';
+import {
+  generatePersonSchema,
+  generateProfessionalServiceSchema,
+} from '../lib/seo';
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonicalUrl?: string;
+  ogImage?: string;
+  ogType?: 'website' | 'article';
+  schema?: Record<string, any> | Record<string, any>[];
+  noindex?: boolean;
+}
+
+const {
+  title = `${siteConfig.name} – ${siteConfig.title}`,
+  description = siteConfig.description,
+  canonicalUrl = Astro.url.href,
+  ogImage = '/og-image.svg',
+  ogType = 'website',
+  schema,
+  noindex = false,
+} = Astro.props;
+
+const personSchema = generatePersonSchema();
+const businessSchema = generateProfessionalServiceSchema();
+
+const combinedSchema = schema
+  ? Array.isArray(schema)
+    ? [personSchema, businessSchema, ...schema]
+    : [personSchema, businessSchema, schema]
+  : [personSchema, businessSchema];
+---
+
+<!doctype html>
+<html lang="en" class="dark scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- SEO Meta Tags -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    {!noindex && <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />}
+
+    <meta name="author" content={siteConfig.name} />
+    <meta name="keywords" content={siteConfig.seoKeywords.join(', ')} />
+    <meta name="theme-color" content="#0A0A0A" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(ogImage, Astro.site || 'https://avinashsahni.com').href} />
+    <meta property="og:site_name" content={siteConfig.name} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalUrl} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL(ogImage, Astro.site || 'https://avinashsahni.com').href} />
+    <meta name="twitter:creator" content="@avinashsahni" />
+
+    <!-- Google Fonts Preconnect for Inter and JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- JSON-LD Structured Data -->
+    {
+      combinedSchema.map((item) => (
+        <script type="application/ld+json" set:html={JSON.stringify(item)} />
+      ))
+    }
+  </head>
+  <body class="bg-background text-text-primary min-h-screen flex flex-col font-sans selection:bg-accent/30 selection:text-white">
+    <!-- Accessible Skip to Content Link -->
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 z-50 px-4 py-2 bg-accent text-white font-medium rounded shadow-lg"
+    >
+      Skip to main content
+    </a>
+
+    <!-- Top Navigation -->
+    <Navbar />
+
+    <!-- Page Body Content -->
+    <main id="main-content" class="flex-1">
+      <slot />
+    </main>
+
+    <!-- Global Footer -->
+    <Footer />
+  </body>
+</html>

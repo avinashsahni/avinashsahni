@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /404
+
+Sitemap: https://avinashsahni.com/sitemap-index.xml
+

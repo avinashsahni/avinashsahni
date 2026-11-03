@@ -1,0 +1,184 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Button from '../../components/ui/Button.astro';
+import ContactCTA from '../../components/sections/ContactCTA.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import { formatDate, calculateReadingTime } from '../../lib/utils';
+import { siteConfig } from '../../data/siteConfig';
+import { generateArticleSchema, generateBreadcrumbSchema } from '../../lib/seo';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+
+const readingTime = calculateReadingTime(post.body);
+
+const pageTitle = `${post.data.title} – ${siteConfig.name}`;
+const pageDescription = post.data.description;
+const articleUrl = new URL(`/blog/${post.slug}`, siteConfig.url).href;
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Blog', url: '/blog' },
+  { name: post.data.title, url: `/blog/${post.slug}` },
+];
+
+const breadcrumbSchema = generateBreadcrumbSchema(breadcrumbs);
+
+const articleSchema = generateArticleSchema({
+  title: post.data.title,
+  description: post.data.description,
+  pubDate: post.data.pubDate,
+  updatedDate: post.data.updatedDate,
+  url: articleUrl,
+  author: post.data.author,
+});
+
+// Fetch other articles for related section
+const allPosts = await getCollection('blog');
+const relatedPosts = allPosts
+  .filter((p) => p.slug !== post.slug)
+  .slice(0, 2);
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  canonicalUrl={articleUrl}
+  ogType="article"
+  schema={[breadcrumbSchema, articleSchema]}
+>
+  <article class="py-16 sm:py-24">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Breadcrumb Navigation -->
+      <nav aria-label="Breadcrumb" class="mb-8 flex items-center gap-2 text-xs font-mono text-text-muted">
+        <a href="/" class="hover:text-white transition-colors">Home</a>
+        <span>/</span>
+        <a href="/blog" class="hover:text-white transition-colors">Blog</a>
+        <span>/</span>
+        <span class="text-accent truncate max-w-xs">{post.data.title}</span>
+      </nav>
+
+      <!-- Article Header -->
+      <header class="mb-12">
+        <div class="flex flex-wrap items-center gap-3 text-xs font-mono text-text-muted mb-4">
+          <span class="text-accent font-semibold">{post.data.category}</span>
+          <span>•</span>
+          <time datetime={post.data.pubDate.toISOString()}>
+            {formatDate(post.data.pubDate)}
+          </time>
+          <span>•</span>
+          <span>{readingTime}</span>
+          {post.data.isDraft && (
+            <span class="px-2.5 py-0.5 rounded-full bg-amber-500/15 text-amber-400 border border-amber-500/30 text-[11px] font-semibold">
+              Initial Draft
+            </span>
+          )}
+        </div>
+
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
+          {post.data.title}
+        </h1>
+
+        <p class="mt-4 text-lg text-text-secondary leading-relaxed">
+          {post.data.description}
+        </p>
+
+        <!-- Author Byline -->
+        <div class="mt-6 pt-6 border-t border-white/10 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-[#181818] border border-white/15 flex items-center justify-center text-accent font-mono font-bold text-xs">
+              AS
+            </div>
+            <div>
+              <p class="text-sm font-semibold text-white">{post.data.author}</p>
+              <p class="text-xs text-text-muted font-mono">{siteConfig.title}</p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2">
+            {post.data.tags.slice(0, 2).map((tag) => (
+              <span class="text-xs font-mono text-text-muted bg-white/5 px-2 py-1 rounded">
+                #{tag}
+              </span>
+            ))}
+          </div>
+        </div>
+      </header>
+
+      <!-- Draft Status Alert Banner -->
+      {post.data.isDraft && (
+        <div class="mb-10 p-4 rounded-xl border border-amber-500/30 bg-amber-950/20 text-xs text-amber-200 flex items-start gap-3">
+          <svg class="w-5 h-5 text-amber-400 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="12" />
+            <line x1="12" y1="16" x2="12.01" y2="16" />
+          </svg>
+          <div>
+            <p class="font-semibold text-amber-300">Draft Status Notice</p>
+            <p class="mt-0.5 text-amber-200/80">
+              This technical document is an initial draft undergoing peer review and ongoing editorial verification by Avinash Sahni prior to full indexing.
+            </p>
+          </div>
+        </div>
+      )}
+
+      <!-- MDX Rendered Body -->
+      <div class="prose prose-invert prose-orange max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-white prose-p:text-text-secondary prose-p:leading-relaxed prose-a:text-accent hover:prose-a:underline prose-code:font-mono prose-code:text-accent prose-code:bg-white/5 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-pre:bg-[#0D0D0D] prose-pre:border prose-pre:border-white/10 prose-pre:rounded-xl prose-li:text-text-secondary">
+        <Content />
+      </div>
+
+      <!-- Article Footer Tags -->
+      <div class="mt-12 pt-8 border-t border-white/10 flex flex-wrap items-center justify-between gap-4">
+        <div class="flex flex-wrap gap-2">
+          {post.data.tags.map((tag) => (
+            <span class="text-xs font-mono text-text-muted bg-white/5 border border-white/10 px-3 py-1 rounded-full">
+              #{tag}
+            </span>
+          ))}
+        </div>
+
+        <a
+          href="/blog"
+          class="text-xs font-mono text-accent hover:underline flex items-center gap-1"
+        >
+          &larr; Back to all articles
+        </a>
+      </div>
+
+      <!-- Related Articles -->
+      {relatedPosts.length > 0 && (
+        <div class="mt-16 pt-12 border-t border-white/10">
+          <h2 class="text-lg font-bold text-white mb-6">Related Engineering Articles</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {relatedPosts.map((related) => (
+              <a
+                href={`/blog/${related.slug}`}
+                class="p-5 rounded-xl border border-white/10 bg-[#121212] hover:border-accent/40 transition-colors block group"
+              >
+                <span class="text-[11px] font-mono text-accent block mb-1">{related.data.category}</span>
+                <h3 class="text-sm font-bold text-white group-hover:text-accent transition-colors">
+                  {related.data.title}
+                </h3>
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  </article>
+
+  <ContactCTA />
+</BaseLayout>
+

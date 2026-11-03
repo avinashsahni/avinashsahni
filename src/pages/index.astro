@@ -1,0 +1,42 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/sections/Hero.astro';
+import TechBadges from '../components/sections/TechBadges.astro';
+import AboutPreview from '../components/sections/AboutPreview.astro';
+import ServicesGrid from '../components/sections/ServicesGrid.astro';
+import FeaturedProjects from '../components/sections/FeaturedProjects.astro';
+import ProcessSection from '../components/sections/ProcessSection.astro';
+import WhyWorkWithMe from '../components/sections/WhyWorkWithMe.astro';
+import ContactCTA from '../components/sections/ContactCTA.astro';
+import { siteConfig } from '../data/siteConfig';
+
+const pageTitle = `${siteConfig.name} – ${siteConfig.title} | Scalable Web & SaaS Engineering`;
+const pageDescription = siteConfig.description;
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <!-- 1. Hero Section -->
+  <Hero />
+
+  <!-- 2. Technology Stack Badges -->
+  <TechBadges />
+
+  <!-- 3. About Section Preview -->
+  <AboutPreview />
+
+  <!-- 4. Services Section -->
+  <ServicesGrid />
+
+  <!-- 5. Featured Projects Showcase -->
+  <FeaturedProjects />
+
+  <!-- 6. Development Process -->
+  <ProcessSection />
+
+  <!-- 7. Why Work With Me -->
+  <WhyWorkWithMe />
+
+  <!-- 8. Contact CTA Section -->
+  <ContactCTA />
+</BaseLayout>
+

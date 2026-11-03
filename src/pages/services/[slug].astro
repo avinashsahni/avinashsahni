@@ -1,0 +1,168 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Button from '../../components/ui/Button.astro';
+import ContactCTA from '../../components/sections/ContactCTA.astro';
+import { servicesData, type ServiceItem } from '../../data/services';
+import { siteConfig } from '../../data/siteConfig';
+import { generateBreadcrumbSchema } from '../../lib/seo';
+
+export function getStaticPaths() {
+  return servicesData.map((service) => ({
+    params: { slug: service.slug },
+    props: { service },
+  }));
+}
+
+interface Props {
+  service: ServiceItem;
+}
+
+const { service } = Astro.props;
+
+const pageTitle = `${service.title} Services – ${siteConfig.name}`;
+const pageDescription = service.shortDescription;
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Services', url: '/services' },
+  { name: service.title, url: `/services/${service.slug}` },
+];
+
+const breadcrumbSchema = generateBreadcrumbSchema(breadcrumbs);
+
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: service.title,
+  serviceType: service.title,
+  description: service.fullDescription,
+  provider: {
+    '@type': 'Person',
+    name: siteConfig.name,
+    url: siteConfig.url,
+  },
+  areaServed: 'Worldwide',
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: service.title,
+    itemListElement: service.deliverables.map((d) => ({
+      '@type': 'Offer',
+      itemOffered: {
+        '@type': 'Service',
+        name: d,
+      },
+    })),
+  },
+};
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  schema={[breadcrumbSchema, serviceSchema]}
+>
+  <article class="py-16 sm:py-24">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Breadcrumb Navigation -->
+      <nav aria-label="Breadcrumb" class="mb-8 flex items-center gap-2 text-xs font-mono text-text-muted">
+        <a href="/" class="hover:text-white transition-colors">Home</a>
+        <span>/</span>
+        <a href="/services" class="hover:text-white transition-colors">Services</a>
+        <span>/</span>
+        <span class="text-accent">{service.title}</span>
+      </nav>
+
+      <!-- Hero Header -->
+      <div class="mb-14">
+        <div class="inline-flex items-center gap-2 px-3 py-1 mb-4 rounded-full border border-white/10 bg-[#141414] text-xs font-mono text-accent uppercase tracking-wider">
+          <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+          Specialized Service
+        </div>
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
+          {service.title}
+        </h1>
+        <p class="mt-4 text-lg text-text-secondary leading-relaxed">
+          {service.shortDescription}
+        </p>
+      </div>
+
+      <!-- Main Overview -->
+      <div class="space-y-12 border-t border-white/10 pt-10 text-text-secondary leading-relaxed">
+        <div>
+          <h2 class="text-xl sm:text-2xl font-bold text-white mb-4">Engineering Overview</h2>
+          <p class="text-base text-text-secondary leading-relaxed">
+            {service.fullDescription}
+          </p>
+        </div>
+
+        <!-- Target Audience / Ideal For -->
+        <div class="p-6 rounded-xl border border-white/10 bg-[#121212]">
+          <h3 class="text-xs font-mono uppercase tracking-wider text-accent mb-2">Ideal Project Profile</h3>
+          <p class="text-sm text-white font-medium">
+            {service.idealFor}
+          </p>
+        </div>
+
+        <!-- Architectural Benefits -->
+        <div>
+          <h2 class="text-xl sm:text-2xl font-bold text-white mb-6">Key Architectural Advantages</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {service.benefits.map((benefit) => (
+              <div class="p-4 rounded-lg border border-white/10 bg-[#141414] flex items-start gap-3">
+                <span class="text-accent mt-0.5 shrink-0">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </span>
+                <span class="text-xs sm:text-sm text-text-secondary">{benefit}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Concrete Deliverables -->
+        <div>
+          <h2 class="text-xl sm:text-2xl font-bold text-white mb-6">Project Deliverables</h2>
+          <div class="rounded-xl border border-white/10 bg-[#121212] divide-y divide-white/5">
+            {service.deliverables.map((item, idx) => (
+              <div class="p-4 sm:p-5 flex items-start gap-3">
+                <span class="text-xs font-mono text-accent mt-0.5">0{idx + 1}</span>
+                <span class="text-xs sm:text-sm text-white font-medium">{item}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Tech Stack -->
+        <div>
+          <h2 class="text-xl sm:text-2xl font-bold text-white mb-4">Recommended Technology Stack</h2>
+          <div class="flex flex-wrap gap-2">
+            {service.technologies.map((tech) => (
+              <span class="text-xs font-mono text-white bg-[#141414] border border-white/10 px-3 py-1.5 rounded-lg">
+                {tech}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <!-- Bottom CTA Card -->
+        <div class="pt-6">
+          <div class="p-8 rounded-xl border border-accent/30 bg-gradient-to-b from-[#161616] to-[#101010] flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div class="space-y-1 text-center sm:text-left">
+              <h3 class="text-lg font-bold text-white">Ready to initiate your {service.title}?</h3>
+              <p class="text-xs sm:text-sm text-text-secondary">
+                Let's conduct a technical scoping review and map out your architecture.
+              </p>
+            </div>
+            <Button href="/contact" variant="primary" size="md">
+              Discuss This Service
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <ContactCTA />
+</BaseLayout>
+

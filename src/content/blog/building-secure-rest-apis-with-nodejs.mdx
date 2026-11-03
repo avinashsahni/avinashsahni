@@ -1,0 +1,140 @@
+---
+title: "Building Secure, Production-Ready REST APIs with Node.js and TypeScript"
+description: "A battle-tested architectural blueprint for engineering enterprise Node.js REST APIs with strict input validation, rate limiting, and JWT security."
+pubDate: 2026-10-29
+author: "Avinash Sahni"
+category: "Backend Development"
+tags: ["Node.js", "TypeScript", "REST APIs", "Security", "Backend"]
+isDraft: true
+featured: true
+---
+
+> **Editorial Note:** *This article is currently an initial architectural draft undergoing technical review by Avinash Sahni.*
+
+With 6+ years of dedicated Node.js backend engineering experience, I have observed that most API vulnerabilities arise not from complex zero-days, but from everyday architectural shortcuts: unvalidated payloads, missing rate limits, leaky error stack traces, and improper token lifecycle management.
+
+Below is the production blueprint I implement for secure, high-throughput Node.js services.
+
+---
+
+## 1. Strict Input Validation with Runtime Schema Enforcement
+
+Never trust client-supplied input. TypeScript types evaporate at runtime; you must enforce strict schema validation at the HTTP layer using libraries like Zod or TypeBox before payloads reach your controllers:
+
+```typescript
+import { z } from 'zod';
+import type { Request, Response, NextFunction } from 'express';
+
+export const CreateUserSchema = z.object({
+  email: z.string().email().toLowerCase().trim(),
+  password: z.string().min(12, 'Password must contain at least 12 characters'),
+  name: z.string().min(2).max(80).trim(),
+});
+
+export function validatePayload(schema: z.ZodSchema) {
+  return (req: Request, res: Response, next: NextFunction) => {
+    const result = schema.safeParse(req.body);
+    if (!result.success) {
+      return res.status(422).json({
+        error: 'VALIDATION_FAILED',
+        details: result.error.flatten().fieldErrors,
+      });
+    }
+    req.body = result.data;
+    next();
+  };
+}
+```
+
+---
+
+## 2. Strategic Rate Limiting and DoS Protection
+
+Protect your public API routes against automated brute-force attacks and resource exhaustion:
+
+- **Global Tier:** Limit each IP address to 100 requests per minute across generic endpoints.
+- **Sensitive Tier:** Limit authentication endpoints (`/auth/login`, `/auth/forgot-password`) to 5 attempts per 15 minutes per IP + account identifier.
+- **Use Distributed In-Memory Counters:** In production, use Redis or Cloudflare edge rate-limiting rather than in-process memory so limits hold across multiple autoscaled server nodes.
+
+---
+
+## 3. Defense-in-Depth Security Headers
+
+Equip your HTTP server with production-grade security headers using Helmet:
+
+```typescript
+import helmet from 'helmet';
+import express from 'express';
+
+const app = express();
+
+app.use(
+  helmet({
+    contentSecurityPolicy: true,
+    dnsPrefetchControl: { allow: false },
+    frameguard: { action: 'deny' },
+    hsts: { maxAge: 31536000, includeSubDomains: true, preload: true },
+    noSniff: true,
+    referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
+  })
+);
+```
+
+---
+
+## 4. Safe Database Queries & SQL Injection Immunity
+
+Always use parameterized queries or type-safe ORMs like Prisma or Kysely. Never concatenate raw SQL strings with user variables:
+
+```typescript
+// SECURE: Prisma automatically parameterizes every input query
+const user = await prisma.user.findUnique({
+  where: { email: validatedEmail },
+  select: {
+    id: true,
+    email: true,
+    role: true,
+    createdAt: true,
+    // Password hash intentionally excluded
+  },
+});
+```
+
+---
+
+## 5. Structured Error Handling Without Data Leakage
+
+In production environments, unhandled exceptions must never return raw database errors or stack traces to the caller. Such details give attackers internal insight into table structures and file layouts:
+
+```typescript
+// Centralized Express error handler
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  const correlationId = req.headers['x-request-id'] || 'N/A';
+
+  // Log full stack trace internally to monitoring service
+  logger.error({
+    message: err.message,
+    stack: err.stack,
+    correlationId,
+    route: req.originalUrl,
+  });
+
+  // Return clean, sanitized JSON to client
+  res.status(500).json({
+    error: 'INTERNAL_SERVER_ERROR',
+    message: 'An unexpected error occurred. Please contact support.',
+    referenceId: correlationId,
+  });
+});
+```
+
+---
+
+## Summary Principles
+1. Validate at the boundaries (runtime schema enforcement).
+2. Rate-limit aggressively on authentication surfaces.
+3. Keep tokens in `HttpOnly`, `Secure` cookies whenever possible.
+4. Log errors internally; return sanitized payloads externally.
+
+*Planning a backend architecture or need an API security audit? [Get in touch today](/contact).*
+

@@ -1,0 +1,85 @@
+---
+import { siteConfig } from '../../data/siteConfig';
+import MobileMenu from './MobileMenu';
+import Button from '../ui/Button.astro';
+
+const pathname = Astro.url.pathname;
+---
+
+<header
+  class="sticky top-0 z-40 w-full border-b border-white/[0.08] bg-[#0A0A0A]/80 backdrop-blur-md transition-all duration-200"
+>
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <!-- Brand Logo -->
+    <a
+      href="/"
+      class="group flex items-center gap-2.5 text-base font-bold tracking-tight text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-md py-1"
+      aria-label="Avinash Sahni - Homepage"
+    >
+      <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-[#141414] border border-white/15 text-accent font-mono font-bold text-sm group-hover:border-accent/50 group-hover:bg-accent/10 transition-colors">
+        AS
+      </span>
+      <span class="flex flex-col">
+        <span class="font-bold leading-tight group-hover:text-accent transition-colors flex items-center gap-1.5">
+          {siteConfig.name}
+          <span class="inline-block w-1.5 h-1.5 rounded-full bg-accent" />
+        </span>
+        <span class="text-[10px] font-mono text-text-muted hidden sm:block">
+          Full-Stack Developer
+        </span>
+      </span>
+    </a>
+
+    <!-- Desktop Navigation Links -->
+    <nav class="hidden md:flex items-center space-x-1 border border-white/10 rounded-full px-4 py-1.5 bg-[#111111]/80 backdrop-blur-sm">
+      {
+        siteConfig.nav.map((item) => {
+          const isActive =
+            item.href === '/'
+              ? pathname === '/'
+              : pathname.startsWith(item.href);
+
+          return (
+            <a
+              href={item.href}
+              class={`px-3.5 py-1 text-xs font-medium rounded-full transition-colors ${
+                isActive
+                  ? 'bg-white/10 text-white font-semibold'
+                  : 'text-text-secondary hover:text-white hover:bg-white/5'
+              }`}
+            >
+              {item.label}
+            </a>
+          );
+        })
+      }
+    </nav>
+
+    <!-- Header Actions (Availability & CTA) -->
+    <div class="hidden sm:flex items-center gap-4">
+      <!-- Subtle Availability pill -->
+      <div
+        class="hidden lg:flex items-center gap-2 text-xs font-mono text-text-secondary border border-white/10 rounded-full px-3 py-1 bg-[#121212]"
+        title="Current availability status"
+      >
+        <span class="relative flex h-2 w-2">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+        </span>
+        <span class="text-[11px] text-text-secondary">Available for Projects</span>
+      </div>
+
+      <Button href="/contact" variant="primary" size="sm">
+        Let's Discuss
+      </Button>
+    </div>
+
+    <!-- Mobile Navigation Toggle -->
+    <MobileMenu
+      client:media="(max-width: 768px)"
+      navItems={siteConfig.nav}
+      currentPath={pathname}
+    />
+  </div>
+</header>
+

@@ -1,0 +1,61 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionHeading from '../../components/ui/SectionHeading.astro';
+import ProjectCard from '../../components/ui/ProjectCard.astro';
+import ContactCTA from '../../components/sections/ContactCTA.astro';
+import { projectsData } from '../../data/projects';
+import { siteConfig } from '../../data/siteConfig';
+import { generateBreadcrumbSchema } from '../../lib/seo';
+
+const pageTitle = `Engineering Projects & Case Studies – ${siteConfig.name}`;
+const pageDescription =
+  'Explore featured full-stack web applications, SaaS architectures, and developer utilities engineered by Avinash Sahni.';
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Projects', url: '/projects' },
+];
+
+const breadcrumbSchema = generateBreadcrumbSchema(breadcrumbs);
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  schema={breadcrumbSchema}
+>
+  <div class="py-16 sm:py-24">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Breadcrumb -->
+      <nav aria-label="Breadcrumb" class="mb-8 flex items-center gap-2 text-xs font-mono text-text-muted">
+        <a href="/" class="hover:text-white transition-colors">Home</a>
+        <span>/</span>
+        <span class="text-accent">Projects</span>
+      </nav>
+
+      <!-- Header -->
+      <div class="max-w-3xl mb-16">
+        <div class="inline-flex items-center gap-2 px-3 py-1 mb-4 rounded-full border border-white/10 bg-[#141414] text-xs font-mono text-accent uppercase tracking-wider">
+          <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+          Production Engineering Showcase
+        </div>
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
+          Selected Web Projects & Systems
+        </h1>
+        <p class="mt-4 text-base sm:text-lg text-text-secondary leading-relaxed">
+          A collection of verified digital products, open architectural systems, and web utilities engineered with clean code, scalable patterns, and zero fabrication.
+        </p>
+      </div>
+
+      <!-- Projects Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {projectsData.map((project) => (
+          <ProjectCard project={project} featured={project.featured} />
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <ContactCTA />
+</BaseLayout>
+

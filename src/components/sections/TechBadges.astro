@@ -1,0 +1,32 @@
+---
+import { technologies } from '../../data/technologies';
+---
+
+<section class="py-12 border-y border-white/[0.08] bg-[#0D0D0D]/60 backdrop-blur-sm">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-6">
+      <p class="text-xs font-mono uppercase tracking-widest text-text-muted">
+        Core Technologies & Architecture Stack
+      </p>
+    </div>
+
+    <!-- Technology Badges Grid -->
+    <div class="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3 max-w-5xl mx-auto">
+      {technologies.map((tech) => (
+        <div
+          class="group relative flex items-center gap-2 px-3.5 py-2 rounded-lg border border-white/10 bg-[#141414] hover:border-accent/40 hover:bg-[#1A1A1A] transition-all duration-200 select-none cursor-default"
+          title={`${tech.name}: ${tech.description}`}
+        >
+          <span class="w-1.5 h-1.5 rounded-full bg-accent/60 group-hover:bg-accent group-hover:scale-125 transition-all" />
+          <span class="text-xs font-mono font-medium text-text-primary group-hover:text-white">
+            {tech.name}
+          </span>
+          <span class="text-[10px] font-mono text-text-muted group-hover:text-text-secondary bg-white/[0.04] px-1.5 py-0.5 rounded">
+            {tech.badge}
+          </span>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+

@@ -1,0 +1,102 @@
+---
+import SectionHeading from '../ui/SectionHeading.astro';
+
+const steps = [
+  {
+    step: '01',
+    name: 'Discover',
+    tagline: 'Understand business requirements',
+    description:
+      'We begin with an in-depth technical scoping session to clarify your core product objectives, target users, performance benchmarks, and existing system constraints.',
+    details: [
+      'Workflow & user story mapping',
+      'Technical constraint assessment',
+      'Integration dependency audit',
+      'Clear milestone roadmapping',
+    ],
+  },
+  {
+    step: '02',
+    name: 'Plan',
+    tagline: 'Define architecture & strategy',
+    description:
+      'Before writing a single line of code, I architect database schemas, API contracts, security protocols, and state management models to prevent technical debt.',
+    details: [
+      'Database schema & normalization',
+      'REST / GraphQL API contract design',
+      'Technology stack finalization',
+      'Deployment infrastructure plan',
+    ],
+  },
+  {
+    step: '03',
+    name: 'Build',
+    tagline: 'Develop & test the solution',
+    description:
+      'Iterative development with clean, typed code. You receive regular staging deployments, transparent progress updates, and automated test coverage across critical paths.',
+    details: [
+      'TypeScript strict mode implementation',
+      'Component-driven UI development',
+      'Continuous automated testing',
+      'Staging environment previews',
+    ],
+  },
+  {
+    step: '04',
+    name: 'Launch',
+    tagline: 'Deploy & ongoing support',
+    description:
+      'Smooth production rollout with zero-downtime deployment pipelines, edge caching, structured logging, and dedicated post-launch support and documentation.',
+    details: [
+      'Production deployment & DNS setup',
+      'Lighthouse & Core Web Vitals audit',
+      'Developer handoff & documentation',
+      'Post-launch warranty & maintenance',
+    ],
+  },
+];
+---
+
+<section class="py-20 sm:py-28 bg-[#0D0D0D] border-t border-white/[0.08] relative">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <SectionHeading
+      eyebrow="Methodology"
+      title="A Structured, Transparent Development Process"
+      description="Every engagement follows a proven four-phase engineering framework engineered to deliver reliable software on schedule."
+    />
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {steps.map((item) => (
+        <div class="relative rounded-xl border border-white/10 bg-[#121212] p-6 flex flex-col justify-between hover:border-accent/40 transition-all duration-300">
+          <div>
+            <!-- Step Number Badge -->
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-2xl font-mono font-bold text-accent">{item.step}</span>
+              <span class="text-[10px] font-mono text-text-muted uppercase tracking-wider px-2 py-0.5 rounded bg-white/5">
+                Phase {item.step}
+              </span>
+            </div>
+
+            <!-- Title & Tagline -->
+            <h3 class="text-lg font-bold text-white mb-1">{item.name}</h3>
+            <p class="text-xs font-mono text-accent mb-3">{item.tagline}</p>
+            <p class="text-xs text-text-secondary leading-relaxed mb-5">
+              {item.description}
+            </p>
+          </div>
+
+          <!-- Bullet deliverables -->
+          <ul class="space-y-1.5 border-t border-white/5 pt-4 text-[11px] text-text-muted">
+            {item.details.map((detail) => (
+              <li class="flex items-center gap-1.5">
+                <span class="text-accent">•</span>
+                <span>{detail}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+

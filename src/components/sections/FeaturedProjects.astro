@@ -1,0 +1,42 @@
+---
+import SectionHeading from '../ui/SectionHeading.astro';
+import ProjectCard from '../ui/ProjectCard.astro';
+import { projectsData } from '../../data/projects';
+import Button from '../ui/Button.astro';
+---
+
+<section class="py-20 sm:py-28 relative">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 sm:mb-16 gap-6">
+      <div class="max-w-2xl">
+        <div class="inline-flex items-center gap-2 px-3 py-1 mb-4 rounded-full border border-white/10 bg-surface text-accent text-xs font-mono uppercase tracking-wider">
+          <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+          Featured Work
+        </div>
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-white leading-tight">
+          Selected Engineering Projects
+        </h2>
+        <p class="mt-4 text-base sm:text-lg text-text-secondary leading-relaxed">
+          Production applications, open architectural foundations, and developer utilities engineered for performance and scalability.
+        </p>
+      </div>
+
+      <div class="shrink-0">
+        <Button href="/projects" variant="secondary" size="md">
+          <span>View All Projects</span>
+          <svg class="w-4 h-4 ml-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </Button>
+      </div>
+    </div>
+
+    <!-- Projects Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      {projectsData.map((project) => (
+        <ProjectCard project={project} featured={true} />
+      ))}
+    </div>
+  </div>
+</section>
+

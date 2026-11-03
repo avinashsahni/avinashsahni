@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/ui/Button.astro';
+import { siteConfig } from '../data/siteConfig';
+
+const pageTitle = `Page Not Found (404) – ${siteConfig.name}`;
+const pageDescription = 'The requested page could not be located on this server.';
+---
+
+<BaseLayout title={pageTitle} description={pageDescription} noindex={true}>
+  <div class="py-24 sm:py-36 text-center">
+    <div class="max-w-xl mx-auto px-4 sm:px-6">
+      <div class="inline-flex items-center gap-2 px-3 py-1 mb-6 rounded-full border border-white/10 bg-[#141414] text-xs font-mono text-accent">
+        <span>ERROR 404</span>
+      </div>
+
+      <h1 class="text-4xl sm:text-5xl font-extrabold text-white tracking-tight mb-4">
+        Page Not Located
+      </h1>
+
+      <p class="text-base text-text-secondary leading-relaxed mb-8">
+        The link you followed may have been updated, moved, or decommissioned. Let's redirect you back to productive engineering resources.
+      </p>
+
+      <div class="flex flex-wrap items-center justify-center gap-4">
+        <Button href="/" variant="primary" size="md">
+          Return to Homepage
+        </Button>
+        <Button href="/projects" variant="secondary" size="md">
+          Explore Projects
+        </Button>
+      </div>
+
+      <div class="mt-12 pt-8 border-t border-white/10 flex flex-wrap justify-center gap-6 text-xs font-mono text-text-muted">
+        <a href="/services" class="hover:text-white transition-colors">Services</a>
+        <span>•</span>
+        <a href="/blog" class="hover:text-white transition-colors">Articles</a>
+        <span>•</span>
+        <a href="/contact" class="hover:text-white transition-colors">Contact Avinash</a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+

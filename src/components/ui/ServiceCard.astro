@@ -1,0 +1,103 @@
+---
+import type { ServiceItem } from '../../data/services';
+import Badge from './Badge.astro';
+
+interface Props {
+  service: ServiceItem;
+  featured?: boolean;
+}
+
+const { service, featured = false } = Astro.props;
+
+// Helper function to get clean 1-based index
+function servicesDataIndex(id: string) {
+  const indexMap: Record<string, number> = {
+    'saas-development': 1,
+    'website-development': 2,
+    'custom-web-applications': 3,
+    'backend-and-api-development': 4,
+    'admin-panels-and-dashboards': 5,
+    'third-party-integrations': 6,
+  };
+  return indexMap[id] || 1;
+}
+---
+
+<div
+  class="group relative flex flex-col justify-between rounded-xl border border-white/10 bg-[#111111]/90 p-6 sm:p-8 transition-all duration-300 hover:border-accent/40 hover:bg-[#141414] hover:shadow-[0_12px_32px_rgba(0,0,0,0.6),0_0_24px_rgba(255,107,53,0.12)]"
+>
+  <div>
+    <!-- Header / Icon -->
+    <div class="flex items-center justify-between mb-6">
+      <div
+        class="w-12 h-12 rounded-lg bg-[#1A1A1A] border border-white/10 flex items-center justify-center text-accent group-hover:border-accent/40 group-hover:bg-accent/10 transition-colors duration-300"
+      >
+        {service.iconName === 'Layers' && (
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 12.5-8.58 3.91a2 2 0 0 1-1.66 0L2 12.5"/><path d="m22 17.5-8.58 3.91a2 2 0 0 1-1.66 0L2 17.5"/></svg>
+        )}
+        {service.iconName === 'Globe' && (
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+        )}
+        {service.iconName === 'Cpu' && (
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/></svg>
+        )}
+        {service.iconName === 'Server' && (
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg>
+        )}
+        {service.iconName === 'LayoutDashboard' && (
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+        )}
+        {service.iconName === 'Share2' && (
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"/><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"/></svg>
+        )}
+      </div>
+      <span class="text-xs font-mono text-text-muted">0{servicesDataIndex(service.id)}</span>
+    </div>
+
+    <!-- Title & Description -->
+    <h3 class="text-xl font-bold text-white group-hover:text-accent transition-colors duration-200">
+      <a href={`/services/${service.slug}`} class="focus:outline-none">
+        <span class="absolute inset-0" aria-hidden="true" />
+        {service.title}
+      </a>
+    </h3>
+    <p class="mt-2.5 text-sm text-text-secondary leading-relaxed">
+      {service.shortDescription}
+    </p>
+
+    <!-- Key Highlights -->
+    <ul class="mt-6 space-y-2 text-xs text-text-secondary border-t border-white/5 pt-5">
+      {service.benefits.slice(0, 3).map((benefit) => (
+        <li class="flex items-start gap-2">
+          <svg class="w-4 h-4 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
+          <span>{benefit}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <!-- Footer with Technologies & CTA -->
+  <div class="mt-8 pt-5 border-t border-white/5 flex items-center justify-between">
+    <div class="flex flex-wrap gap-1.5 max-w-[70%]">
+      {service.technologies.slice(0, 3).map((tech) => (
+        <span class="text-[11px] font-mono text-text-muted bg-white/[0.04] px-2 py-0.5 rounded">
+          {tech}
+        </span>
+      ))}
+      {service.technologies.length > 3 && (
+        <span class="text-[11px] font-mono text-text-muted bg-white/[0.04] px-1.5 py-0.5 rounded">
+          +{service.technologies.length - 3}
+        </span>
+      )}
+    </div>
+
+    <span class="inline-flex items-center gap-1 text-xs font-medium text-accent group-hover:translate-x-1 transition-transform duration-200">
+      Explore
+      <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </span>
+  </div>
+</div>

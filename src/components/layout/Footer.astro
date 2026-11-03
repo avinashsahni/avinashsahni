@@ -1,0 +1,131 @@
+---
+import { siteConfig } from '../../data/siteConfig';
+import { servicesData } from '../../data/services';
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="border-t border-white/[0.08] bg-[#0A0A0A] pt-16 pb-12 mt-24">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-5 gap-10 lg:gap-12 pb-12 border-b border-white/[0.06]">
+      <!-- Brand & Tagline -->
+      <div class="md:col-span-2 space-y-4">
+        <a href="/" class="flex items-center gap-2 text-lg font-bold text-white">
+          <span class="flex h-7 w-7 items-center justify-center rounded-md bg-[#161616] border border-white/10 text-accent font-mono text-xs">
+            AS
+          </span>
+          <span>{siteConfig.name}</span>
+        </a>
+        <p class="text-sm text-text-secondary leading-relaxed max-w-sm">
+          {siteConfig.description}
+        </p>
+        <div class="pt-2 flex items-center gap-2 text-xs font-mono text-emerald-400">
+          <span class="w-2 h-2 rounded-full bg-emerald-400" />
+          <span>{siteConfig.availability}</span>
+        </div>
+        <p class="text-xs font-mono text-text-muted">
+          Direct inquiry: <a href={`mailto:${siteConfig.email}`} class="text-text-secondary hover:text-accent underline">{siteConfig.email}</a>
+        </p>
+      </div>
+
+      <!-- Services Links -->
+      <div class="space-y-3">
+        <h3 class="text-xs font-mono uppercase tracking-wider text-white font-semibold">Services</h3>
+        <ul class="space-y-2 text-xs text-text-secondary">
+          {servicesData.slice(0, 5).map((service) => (
+            <li>
+              <a href={`/services/${service.slug}`} class="hover:text-accent transition-colors">
+                {service.title}
+              </a>
+            </li>
+          ))}
+          <li>
+            <a href="/services" class="text-accent hover:underline">
+              View All Services →
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Quick Navigation -->
+      <div class="space-y-3">
+        <h3 class="text-xs font-mono uppercase tracking-wider text-white font-semibold">Pages</h3>
+        <ul class="space-y-2 text-xs text-text-secondary">
+          {siteConfig.nav.map((item) => (
+            <li>
+              <a href={item.href} class="hover:text-white transition-colors">
+                {item.label}
+              </a>
+            </li>
+          ))}
+          <li>
+            <a href="/privacy" class="hover:text-white transition-colors">
+              Privacy Policy
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Social & Professional Links -->
+      <div class="space-y-3">
+        <h3 class="text-xs font-mono uppercase tracking-wider text-white font-semibold">Connect</h3>
+        <ul class="space-y-2 text-xs text-text-secondary">
+          <li>
+            <a
+              href={siteConfig.social.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hover:text-white transition-colors flex items-center gap-1.5"
+            >
+              <span>GitHub</span>
+              <span class="text-text-muted text-[10px]">↗</span>
+            </a>
+          </li>
+          <li>
+            <a
+              href={siteConfig.social.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hover:text-white transition-colors flex items-center gap-1.5"
+            >
+              <span>LinkedIn</span>
+              <span class="text-text-muted text-[10px]">↗</span>
+            </a>
+          </li>
+          <li>
+            <a
+              href={siteConfig.social.twitter}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hover:text-white transition-colors flex items-center gap-1.5"
+            >
+              <span>X (Twitter)</span>
+              <span class="text-text-muted text-[10px]">↗</span>
+            </a>
+          </li>
+          <li>
+            <a
+              href={`mailto:${siteConfig.email}`}
+              class="hover:text-accent transition-colors flex items-center gap-1.5"
+            >
+              <span>Email Avinash</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-text-muted gap-4">
+      <p>
+        © {currentYear} {siteConfig.name}. All rights reserved. Built with Astro, TypeScript & Tailwind CSS.
+      </p>
+      <div class="flex items-center gap-6">
+        <a href="/privacy" class="hover:text-text-secondary transition-colors">Privacy Policy</a>
+        <a href="/robots.txt" class="hover:text-text-secondary transition-colors">Robots.txt</a>
+        <a href="/sitemap-index.xml" class="hover:text-text-secondary transition-colors">Sitemap</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
